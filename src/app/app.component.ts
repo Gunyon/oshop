@@ -1,4 +1,6 @@
+import { AuthService } from './auth.service';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'oshop';
+  constructor(private auth: AuthService, private router: Router) {
+    this.auth.user$.subscribe((user) => {
+      if (user) {
+        const redirectUrl = localStorage.getItem('returnUrl');
+        this.router.navigateByUrl(redirectUrl);
+      }
+    });
+  }
 }
