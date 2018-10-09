@@ -1,40 +1,40 @@
+import { AdminAuthGuardService } from './admin-auth-guard.service';
+import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
+import { AdminsOrdersComponent } from './admin/admins-orders/admins-orders.component';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireModule } from '@angular/fire';
+import { AppComponent } from './app.component';
 import { AuthGuardService } from './auth-guard.service';
 import { AuthService } from './auth.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireStorageModule } from '@angular/fire/storage';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { environment } from './../environments/environment';
-import { AppComponent } from './app.component';
 import { BsNavbarComponent } from './bs-navbar/bs-navbar.component';
-import { HomeComponent } from './home/home.component';
-import { ProductsComponent } from './products/products.component';
-import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { CheckOutComponent } from './check-out/check-out.component';
-import { OrderSuccessComponent } from './order-success/order-success.component';
-import { MyOrdersComponent } from './my-orders/my-orders.component';
-import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
-import { AdminsOrdersComponent } from './admin/admins-orders/admins-orders.component';
+import { environment } from './../environments/environment';
+import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { MyOrdersComponent } from './my-orders/my-orders.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgModule } from '@angular/core';
+import { OrderSuccessComponent } from './order-success/order-success.component';
+import { ProductsComponent } from './products/products.component';
+import { RouterModule } from '@angular/router';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { UserService } from './user.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    BsNavbarComponent,
-    HomeComponent,
-    ProductsComponent,
-    ShoppingCartComponent,
-    CheckOutComponent,
-    OrderSuccessComponent,
-    MyOrdersComponent,
     AdminProductsComponent,
     AdminsOrdersComponent,
-    LoginComponent
+    AppComponent,
+    BsNavbarComponent,
+    CheckOutComponent,
+    HomeComponent,
+    LoginComponent,
+    MyOrdersComponent,
+    OrderSuccessComponent,
+    ProductsComponent,
+    ShoppingCartComponent
   ],
   imports: [
     BrowserModule,
@@ -49,17 +49,26 @@ import { LoginComponent } from './login/login.component';
       { path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthGuardService] },
       { path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthGuardService] },
 
-      { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthGuardService] },
-      { path: 'admin/orders', component: AdminsOrdersComponent, canActivate: [AuthGuardService] }
+      {
+        path: 'admin/products',
+        component: AdminProductsComponent,
+        canActivate: [AuthGuardService, AdminAuthGuardService]
+      },
+      {
+        path: 'admin/orders',
+        component: AdminsOrdersComponent,
+        canActivate: [AuthGuardService, AdminAuthGuardService]
+      }
     ]),
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
     AngularFireAuthModule,
-    AngularFireStorageModule
+    AngularFireDatabaseModule
   ],
   providers: [
+    AdminAuthGuardService,
+    AuthGuardService,
     AuthService,
-    AuthGuardService
+    UserService
   ],
   bootstrap: [AppComponent]
 })
