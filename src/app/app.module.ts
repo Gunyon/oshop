@@ -1,3 +1,4 @@
+import { CategoryService } from './category.service';
 import { AdminAuthGuardService } from './admin-auth-guard.service';
 import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
 import { AdminsOrdersComponent } from './admin/admins-orders/admins-orders.component';
@@ -21,6 +22,10 @@ import { ProductsComponent } from './products/products.component';
 import { RouterModule } from '@angular/router';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { UserService } from './user.service';
+import { ProductFormComponent } from './admin/product-form/product-form.component';
+import { ProductService } from './product.service';
+import { FormsModule } from '@angular/forms';
+import { CustomFormsModule } from 'ng2-validation';
 
 @NgModule({
   declarations: [
@@ -34,10 +39,13 @@ import { UserService } from './user.service';
     MyOrdersComponent,
     OrderSuccessComponent,
     ProductsComponent,
-    ShoppingCartComponent
+    ShoppingCartComponent,
+    ProductFormComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    CustomFormsModule,
     NgbModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
@@ -55,6 +63,11 @@ import { UserService } from './user.service';
         canActivate: [AuthGuardService, AdminAuthGuardService]
       },
       {
+        path: 'admin/products/new',
+        component: ProductFormComponent,
+        canActivate: [AuthGuardService, AdminAuthGuardService]
+      },
+      {
         path: 'admin/orders',
         component: AdminsOrdersComponent,
         canActivate: [AuthGuardService, AdminAuthGuardService]
@@ -68,7 +81,9 @@ import { UserService } from './user.service';
     AdminAuthGuardService,
     AuthGuardService,
     AuthService,
-    UserService
+    UserService,
+    CategoryService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })
