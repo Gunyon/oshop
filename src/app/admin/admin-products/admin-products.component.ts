@@ -1,5 +1,7 @@
+import { Product } from 'src/app/models/product';
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/product.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-products',
@@ -7,10 +9,19 @@ import { ProductService } from 'src/app/product.service';
   styleUrls: ['./admin-products.component.css']
 })
 export class AdminProductsComponent implements OnInit {
-  products$;
+  products: Array<Product>;
+  filteredProducts: Array<Product>;
+  subsGetAll: Subscription;
 
   constructor(private productService: ProductService) {
-    this.products$ = this.productService.getAll();
+    this.subsGetAll = this.productService.getAll()
+      .subscribe(products => this.filteredProducts = this.products = products);
+  }
+
+  filter(query) {
+    this.filteredProducts = query ?
+      this.products.filter(p => p.title.toLowerCase().includes(query)) :
+      this.products;
   }
 
   ngOnInit() {

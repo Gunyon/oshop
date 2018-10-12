@@ -15,11 +15,13 @@ export class AppComponent {
     private userService: UserService
   ) {
     this.auth.user$.subscribe((user) => {
-      if (user) {
-        this.userService.save(user);
-        const redirectUrl = localStorage.getItem('returnUrl');
-        this.router.navigateByUrl(redirectUrl);
-      }
+      if (!user) { return; }
+      this.userService.save(user);
+
+      const redirectUrl = localStorage.getItem('returnUrl');
+      if (!redirectUrl) { return; }
+      localStorage.removeItem('returnUrl');
+      this.router.navigateByUrl(redirectUrl);
     });
   }
 }
