@@ -4,12 +4,13 @@ import { Product } from './product';
 export class ShoppingCart {
   items: Array<ShoppingCartItem> = [];
 
-  constructor(public itemsMap: { [productId: string]: ShoppingCartItem }) {
+  constructor(private itemsMap: { [productId: string]: ShoppingCartItem }) {
     let item;
+    this.itemsMap = itemsMap || {};
     // transform cart items in array to be able to iterate in template with ngFor
-    for (const productId of Object.keys(itemsMap)) {
+    for (const productId of Object.keys(this.itemsMap)) {
       item = this.itemsMap[productId];
-      this.items.push(new ShoppingCartItem(item.product, item.quantity));
+      this.items.push(new ShoppingCartItem({ ...item }));
     }
   }
 
