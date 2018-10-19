@@ -2,7 +2,7 @@ import { ShoppingCartService } from './shopping-cart.service';
 import { CategoryService } from './category.service';
 import { AdminAuthGuardService } from './admin-auth-guard.service';
 import { AdminProductsComponent } from './admin/admin-products/admin-products.component';
-import { AdminsOrdersComponent } from './admin/admins-orders/admins-orders.component';
+import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireModule } from '@angular/fire';
@@ -31,11 +31,14 @@ import { DataTableModule } from 'angular-6-datatable';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
+import { OrderService } from './order.service';
+import { ShoppingCartSummaryComponent } from './shopping-cart-summary/shopping-cart-summary.component';
+import { ShippingFormComponent } from './shipping-form/shipping-form.component';
 
 @NgModule({
   declarations: [
     AdminProductsComponent,
-    AdminsOrdersComponent,
+    AdminOrdersComponent,
     AppComponent,
     BsNavbarComponent,
     CheckOutComponent,
@@ -48,7 +51,9 @@ import { ProductQuantityComponent } from './product-quantity/product-quantity.co
     ProductFormComponent,
     ProductFilterComponent,
     ProductCardComponent,
-    ProductQuantityComponent
+    ProductQuantityComponent,
+    ShoppingCartSummaryComponent,
+    ShippingFormComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +67,7 @@ import { ProductQuantityComponent } from './product-quantity/product-quantity.co
       { path: 'login', component: LoginComponent },
 
       { path: 'check-out', component: CheckOutComponent, canActivate: [AuthGuardService] },
-      { path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthGuardService] },
+      { path: 'order-success/:id', component: OrderSuccessComponent, canActivate: [AuthGuardService] },
       { path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthGuardService] },
 
       {
@@ -82,7 +87,7 @@ import { ProductQuantityComponent } from './product-quantity/product-quantity.co
       },
       {
         path: 'admin/orders',
-        component: AdminsOrdersComponent,
+        component: AdminOrdersComponent,
         canActivate: [AuthGuardService, AdminAuthGuardService]
       }
     ]),
@@ -98,7 +103,8 @@ import { ProductQuantityComponent } from './product-quantity/product-quantity.co
     UserService,
     CategoryService,
     ProductService,
-    ShoppingCartService
+    ShoppingCartService,
+    OrderService
   ],
   bootstrap: [AppComponent]
 })
