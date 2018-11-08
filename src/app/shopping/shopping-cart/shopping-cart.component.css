@@ -7,4 +7,19 @@
 
 .card {
   margin-bottom: 80px;
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .card {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  thead th:first-child,
+  tbody td:first-child,
+  tfoot tr:first-child th:first-child {
+    display: none;
+  }
 }
